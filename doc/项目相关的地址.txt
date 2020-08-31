@@ -1,0 +1,7 @@
+1.大气的服务器地址 121.36.14.224:22 root/Piesat@123
+
+2.广西/嘉兴的tomcat路径： /export/GX/apache-tomcat-8.5.43/webapps
+
+3.mysql地址 121.36.24.29:3360 pieaccountC/Piesat@123
+
+4.公司地图发布平台 http://cloud.piesat.cn:9000/dataservices/map-editor/#/

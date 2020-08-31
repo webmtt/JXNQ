@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.htht.cn.jiaxing.mapper.UserDao">
+
+    <resultMap id="BaseResultMap" type="com.htht.cn.jiaxing.model.User">
+        <id column="user_id" jdbcType="INTEGER" property="user_id" />
+        <result column="user_name" jdbcType="VARCHAR" property="user_name" />
+        <result column="user_password" jdbcType="VARCHAR" property="user_password" />
+        <result column="gender" jdbcType="CHAR" property="gender" />
+        <result column="phone_number" jdbcType="VARCHAR" property="phone_number" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="organization" jdbcType="VARCHAR" property="organization" />
+        <result column="user_type" jdbcType="INTEGER" property="user_type" />
+    </resultMap>
+
+    <select id="selectAll" resultType="com.htht.cn.jiaxing.model.User">
+        select * from user_info
+    </select>
+
+    <!--按id批量查询-->
+    <select id="selectById"  resultType="com.htht.cn.jiaxing.model.User">
+        select * from user_info where user_id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+   <!-- <select id="select1ByName"  resultType="String">
+        select user_password from user_info where user_name=#{user_name}
+    </select>
+    <select id="select2ByName"  resultType="INTEGER">
+        select user_type from user_info where user_name=#{user_name}
+    </select>
+    -->
+
+    <!--一种动态的insert语句,更加具有通用性-->
+    <sql id="userInfoColumns">
+        <trim suffixOverrides=",">
+            <if test="user_id != null">user_id,</if>
+            <if test="user_name != null">user_name,</if>
+            <if test="user_password != null">user_password,</if>
+            <if test="gender != null">gender,</if>
+            <if test="phone_number != null">phone_number,</if>
+            <if test="address != null">address,</if>
+            <if test="organization != null">organization,</if>
+            <if test="user_type != null">user_type,</if>
+            <if test="regtime != null">regtime</if>
+        </trim>
+    </sql>
+
+    <sql id="userInfoValues">
+        <trim suffixOverrides=",">
+            <if test="user_id != null">#{user_id},</if>
+            <if test="user_name != null">#{user_name},</if>
+            <if test="user_password != null">#{user_password},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="phone_number != null">#{phone_number},</if>
+            <if test="address != null">#{address},</if>
+            <if test="organization != null">#{organization},</if>
+            <if test="user_type != null">#{user_type},</if>
+            <if test="regtime != null">#{regtime},</if>
+        </trim>
+    </sql>
+    <insert id="insert" parameterType="com.htht.cn.jiaxing.model.User">
+        insert into user_info (<include refid="userInfoColumns"/>)
+        values (<include refid="userInfoValues"/>)
+    </insert>
+
+    <!--修改基本信息-->
+    <update id="update" parameterType="com.htht.cn.jiaxing.model.User">
+        update user_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="user_name != null">user_name=#{user_name},</if>
+            <if test="gender != null">gender=#{gender},</if>
+            <if test="phone_number != null">phone_number=#{phone_number},</if>
+            <if test="address != null">address=#{address},</if>
+            <if test="organization != null">organization=#{organization}</if>
+        </trim>
+         where
+         user_id=#{user_id}
+    </update>
+
+    <!--修改密码-->
+    <update id="updatePwd">
+        UPDATE user_info set
+        user_password=#{user_password}
+        WHERE
+        user_id=#{user_id}
+
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        delete from user_info where user_id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+     </delete>
+
+    <select id="uLogin" resultMap="BaseResultMap">
+        select * from user_info where user_name=#{user_name} AND user_password = #{user_password}
+    </select>
+
+</mapper>

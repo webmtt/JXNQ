@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htht.cn.jiaxing.mapper.CropCultivationYearMsgDao">
+  <resultMap id="BaseResultMap" type="com.htht.cn.jiaxing.model.CropCultivationYearMsg">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="DISTRICT" jdbcType="VARCHAR" property="district" />
+    <result column="DISTRICT_TAG" jdbcType="VARCHAR" property="districtTag" />
+    <result column="YEAR" jdbcType="VARCHAR" property="year" />
+    <result column="CROP_BREEDS" jdbcType="VARCHAR" property="cropBreeds" />
+    <result column="CULTIVATION_AREA" jdbcType="FLOAT" property="cultivationArea" />
+  </resultMap>
+
+  <select id="query" resultMap="BaseResultMap">
+    SELECT * FROM crop_cultivation_year_msg WHERE
+     `YEAR` = #{year}
+    <if test="district != null and district != ''">
+      and DISTRICT_TAG = #{district}
+    </if>
+    <if test="cropBreeds != null and cropBreeds != ''">
+      and CROP_BREEDS =#{cropBreeds}
+    </if>
+  </select>
+
+  <select id="getCropByDistrict" resultMap="BaseResultMap">
+    SELECT * FROM crop_cultivation_year_msg WHERE
+    <if test="district != null and district != ''">
+      DISTRICT_TAG = #{district}
+    </if>
+    <if test="cropBreeds != null and cropBreeds != ''">
+      and CROP_BREEDS =#{cropBreeds}
+    </if>
+
+  </select>
+  <select id="cropLineChart" resultMap="BaseResultMap">
+    SELECT * FROM crop_cultivation_year_msg WHERE
+
+    <if test="cropBreeds != null and cropBreeds != ''">
+      CROP_BREEDS =#{cropBreeds}
+    </if>
+    <if test="district != null and district != ''">
+      and DISTRICT_TAG = #{district}
+    </if>
+    AND `YEAR` &lt;= #{maxYear} AND `YEAR` &gt;= #{minYear}
+
+  </select>
+
+  <select id="querySumByDistrict" resultType="float">
+    SELECT SUM(CULTIVATION_AREA) FROM crop_cultivation_year_msg WHERE
+    `YEAR` = #{year}
+    <if test="district != null and district != ''">
+      AND DISTRICT_TAG = #{district}
+    </if>
+    <if test="cropBreeds != null and cropBreeds != ''">
+      and CROP_BREEDS =#{cropBreeds}
+    </if>
+  </select>
+
+
+</mapper>

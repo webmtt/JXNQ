@@ -1,0 +1,108 @@
+spring:
+  application:
+    name: jiaxing
+
+  datasource:
+    url: jdbc:mysql://10.136.5.68:3306/jxnq?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    maxTotal: 20
+    minEvictableIdleTimeMillis: 600000
+    initialSize: 5
+    maxIdle: 20
+    minIdle: 5
+  mvc:
+    #这个配置是默认配置
+    static-path-pattern: /**
+  http:    #将 项目外 目录挂载到 应用中
+    multipart:
+      ##项目外的路径
+      locations: /tmp/images
+  resources:
+    ##需要把自定义的路径添加到static-locations后面,原本的静态访问路径也要加上不然原本的静态资源会访问不到。
+    static-locations:
+      - classpath:/META-INF/resources/
+      - classpath:/resources/
+      - classpath:/static/
+      - classpath:/public/
+      - file:${spring.http.multipart.locations}
+server:
+  error:
+    whitelabel:
+      enabled: true
+    path: /error
+
+  tomcat:
+    # default
+    accept-count: 100
+
+
+logging:
+  file: /export/GX/logs/jiaxing.log
+
+  level:
+    ## debug level that show the sql
+    com.htht.cn.jiaxing.mapper.*: info
+    root: info
+  pattern:
+    #console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %5level  %msg\\(%logger{43}:%L\\)' %n
+    console: '%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39}%L : %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
+    file: '%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39}%L : %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
+
+mybatis:
+  type-aliases-package: com.htht.cn.jiaxing.model
+  mapper-locations: classpath*:mappers/*.xml
+#  typeAliases:
+#    Package: com.htht.cn.jiaxing.model
+#  mapperLocations: classpath*:mappers/*.xml
+#
+#  resources:
+#    static-locations: classpath:/templates  #访问静态页面
+
+# swagger
+swagger:
+  base.package: com.htht.cn.jiaxing
+  description: ''
+
+tiff:
+  mask-path: jiaxing_mask.tif
+  gene-cron: 0 10 * * * ?
+  weather-data-uri: http://10.136.2.99:11223/data/observ/surf/zjszdz
+
+user:
+  ## 关闭 则不要登录 用于调试使用
+  isNeedLogin: N
+  ##环境问题,本地gdal不去打开
+  isGdalOpen: Y
+  ##登录后存活多长时间 秒
+  login-living: 600
+
+###气象算法路径
+weather:
+ qiujidiwen:
+  imgOutPath: /export/GX/data/out/qiujidiwen.png
+  pythonAdd: /jxnq/data/qiujidiwen.py
+ fenniejianhuan:
+  imgOutPath: /export/GX/data/out/fenniejianhuan.png
+  pythonAdd: /jxnq/data/fenniejianhuan.py
+ baoyu:
+  imgOutPath: /export/GX/data/out/baoyu.png
+  pythonAdd: /jxnq/data/baoyu.py
+ honglao:
+  imgOutPath: /export/GX/data/out/honglao.png
+  pythonAdd: /jxnq/data/honglao.py
+ lianyinyu:
+  imgOutPath: /export/GX/data/out/lianyinyu.png
+  pythonAdd: /jxnq/data/lianyinyu.py
+ lanyang:
+  imgOutPath: /export/GX/data/out/lanyang.png
+  pythonAdd: /jxnq/data/lanyang.py
+ read :
+  pythonAdd : /jxnq/data/read_weather.py
+
+###nc文件路径
+ncFileUrl : http://10.136.2.221/smart_grid/%E6%99%BA%E8%83%BD%E7%BD%91%E6%A0%BC/
+ncFileSavePath : /jxnq/data/nc

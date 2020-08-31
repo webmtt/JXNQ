@@ -1,0 +1,127 @@
+@import './variables.scss';
+@import './mixin.scss';
+@import './transition.scss';
+@import './element-ui.scss';
+@import './sidebar.scss';
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+  font-size: 14px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+
+// 覆盖登录自动填充密码背景
+
+// main-container global css
+.app-container {
+  padding: 10px;
+  height: 100%;
+  .classTab {
+    border: 1px solid #17cdbd;
+    border-radius: 4px;
+    .el-button {
+      background: transparent;
+      border-color: #383d41;
+      color: #ffffff
+    }
+    
+    .el-button--primary {
+      background: #17cdbd;
+      border-color: #17cdbd;
+      color: #000000;
+    }
+  }
+
+  
+
+  .el-icon-arrow-up:before {
+    color: #17cdbd;
+  }
+}
+.monitor{
+  .el-input__inner {
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #17cdbd;
+    color: #17cdbd;
+    background: transparent;
+    padding: 0 8px;
+  }
+}
+
+/* mapbox弹出框样式覆盖 */
+.mapboxgl-popup {
+  color: #fff!important;
+  max-width: auto!important
+}
+.mapboxgl-popup-content{
+  background: #060606c7!important;
+}
+.mapboxgl-popup-close-button {
+  color: #fff!important;
+  right: 5px!important;
+  top: 10px!important;
+}
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip{
+    border-top-color: #060606c7!important;
+}
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+  border-bottom-color: #060606c7!important;
+}
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+  border-left-color: #060606c7!important;
+}
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+  border-right-color: #060606c7!important;
+}

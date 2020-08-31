@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.htht.cn.jiaxing.mapper.LoginAndRegister">
+
+    <resultMap id="BaseResultMap" type="com.htht.cn.jiaxing.model.User">
+        <id column="user_id" jdbcType="INTEGER" property="user_id" />
+        <result column="user_name" jdbcType="VARCHAR" property="user_name" />
+        <result column="user_password" jdbcType="VARCHAR" property="user_password" />
+        <result column="gender" jdbcType="CHAR" property="gender" />
+        <result column="phone_number" jdbcType="VARCHAR" property="phone_number" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="organization" jdbcType="VARCHAR" property="organization" />
+        <result column="user_type" jdbcType="CHAR" property="user_type" />
+    </resultMap>
+
+    <sql id="BaseColumnList">
+        user_id,user_name,user_password,gender,phone_number,address,organization,user_type
+    </sql>
+
+    <!--用户登录验证-->
+    <select id="login"   resultMap="BaseResultMap">
+        SELECT * FROM use_info WHERE user_name = #{user_name,jdbcType=VARCHAR} AND user_password = #{user_password,jdbcType=VARCHAR}
+    </select>
+
+    <!--新用户注册 -->
+    <sql id="userInfoColumns">
+        <trim suffixOverrides=",">
+            <if test="user_id != null">user_id,</if>
+            <if test="user_name != null">user_name,</if>
+            <if test="user_password != null">user_password,</if>
+            <if test="gender != null">gender,</if>
+            <if test="phone_number != null">phone_number,</if>
+            <if test="address != null">address,</if>
+            <if test="organization != null">organization,</if>
+            <if test="regtime != null">regtime</if>
+        </trim>
+    </sql>
+
+    <sql id="userInfoValues">
+    <trim suffixOverrides=",">
+        <if test="user_id != null">#{user_id},</if>
+        <if test="user_name != null">#{user_name},</if>
+        <if test="user_password != null">#{user_password},</if>
+        <if test="gender != null">#{gender},</if>
+        <if test="phone_number != null">#{phone_number},</if>
+        <if test="address != null">#{address},</if>
+        <if test="organization != null">#{organization},</if>
+        <if test="regtime != null">#{regtime}</if>
+        </trim>
+    </sql>
+    <insert id="register" parameterType="com.htht.cn.jiaxing.model.User" useGeneratedKeys="true" keyProperty="user_id">
+        INSERT INTO user_info (<include refid="userInfoColumns"/>) VALUES (<include refid="userInfoValues"/>)
+    </insert>
+
+    <select id="selectByName"  resultType="int">
+        select
+        count(*)
+        from user_info
+        where user_name=#{user_name}
+    </select>
+
+
+</mapper>

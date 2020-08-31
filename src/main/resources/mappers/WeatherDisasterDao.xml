@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htht.cn.jiaxing.mapper.WeatherDisasterDao">
+  <resultMap id="BaseResultMap" type="com.htht.cn.jiaxing.model.WeatherDisasterParameter">
+    <id column="ID" property="id" />
+    <result column="CREATE_TIME" property="createTime" />
+    <result column="D_TYPE" property="dType" />
+    <result column="D_PARAMETER" property="dParameter" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.htht.cn.jiaxing.model.WeatherDisasterParameter">
+      INSERT INTO weather_disaster_parameter (CREATE_TIME,D_TYPE,D_PARAMETER) VALUES (#{createTime},#{dType},#{dParameter})
+  </insert>
+
+  <select id="getParams" resultType="string">
+    SELECT D_PARAMETER FROM weather_disaster_parameter WHERE D_TYPE = #{type} ORDER BY CREATE_TIME DESC LIMIT 1
+  </select>
+
+</mapper>
